@@ -48,9 +48,63 @@ giving 104 at $n=1$ (generators $\langle 7,22,67,202\rangle$) and 989 at $n=2$ (
 **Lemma statement:**
 $$F(S_n) = a^{2n+2k+1} - a^{2n+2k} - a^{2n+k+1} - a^{2n+k} - a^{n+k} - a^{n+1} + 2a^n - 2a + 3$$
 
-**Correction:** Add the missing term $+\,2a^{n+k+2}$:
-$$F(S_n) = a^{2n+2k+1} - a^{2n+2k} - a^{2n+k+1} - a^{2n+k} - a^{n+k} - a^{n+1} + 2a^{n+k+2} + 2a^n - 2a + 3$$
+**Correction:** The sign on the $a^{2n+k}$ term is wrong; it should be $+$:
+$$F(S_n) = a^{2n+2k+1} - a^{2n+2k} - a^{2n+k+1} + a^{2n+k} - a^{n+k} - a^{n+1} + 2a^n - 2a + 3$$
 
-**Short explanation:** The printed formula is always too small by exactly $2a^{n+k+2}$. Checked at $a=3, n=2$ for three values of $k$: at $k=10$ it gives 564,839,409,633 against a true 564,848,975,571 (short by $2\cdot 3^{14}$), and at $k=11$ and $k=12$ it is short by $2\cdot 3^{15}$ and $2\cdot 3^{16}$. A clean pattern like that points to a term dropped during the derivation rather than an arithmetic typo. Unlike D2 there is no correct intermediate expression elsewhere in the paper, so this printed formula is the only statement available for this sub-case.
+**Short explanation:** This is the one sub-case the paper does not prove — it writes only "it can be shown that". Carrying out the derivation with the paper's own machinery gives the residual tuple $\alpha_{n+K} = a$, $\alpha_j = a-1$ for $n+K < j < n+k$, $\alpha_{n+k} = a-2$ (where $K = k - a^n - 1 \ge 0$), which telescopes via the paper's equation (2) to $\max \mathrm{Ap} = (a-1)(s_{n+k} - a^n - 1)$. Subtracting $s_0$ gives the corrected formula above — identical to the printed one except for that single sign. Confirmed at $a=3$, $n=2$ for $k=10,11,12$: the printed formula gives 564,839,409,633 where the true value is 564,848,975,571, and misses by $2a^{2n+k}$ in each case.
 
-**Lean:** `linrec_nGt1_kLarge_TRUE` ($k=10$ only; $k=11,12$ not yet encoded) · **GAP:** Checked
+**Lean:** `linrec_nGt1_kLarge_TRUE` ($k=10$ only; $k=11,12$ verified but not encoded) · **GAP:** Checked ($k=10$)
+
+---
+
+## D4
+
+**Paper:** Kyunghwan Song, *The Frobenius problem for four numerical semigroups*, [arXiv:1706.09246](https://arxiv.org/abs/1706.09246)
+
+**Section/lemma in paper with error:** Example 3.20 (genus only) — Thabit numerical semigroups base $b$, case $n = 1$
+
+**Lemma statement:**
+$$g(T_b(1)) = \frac{b^5 + b^4 - b^3 - b^2 - 2b + 4}{2}$$
+
+**Correction:** The linear term should be $-4b$:
+$$g(T_b(1)) = \frac{b^5 + b^4 - b^3 - b^2 - 4b + 4}{2}$$
+
+**Short explanation:** Example 3.20 is the $n=1$ specialization of the paper's own Theorem 3.19, and Theorem 3.19 is correct. Substituting $n=1$ there leaves two separate $-2b$ contributions (one from $\{(n-1)(b^2-1)-2\}b^n$, one from the constant $-2b+4$); the example keeps only one, so it is too large by exactly $b$. For $b=3$ (generators $\langle 11,35,107\rangle$) it reports 143 where the true genus is 140; the same gap appears at $b=2,4,5$ (18 vs 16, 598 vs 594, 1797 vs 1792). The paper contradicts itself, so the correct value is available from Theorem 3.19.
+
+**Lean:** `song_thabit_b3n1_genus_TRUE` · **GAP:** Not yet checked
+
+---
+
+## D5
+
+**Paper:** Kyunghwan Song, *The Frobenius problem for four numerical semigroups*, [arXiv:1706.09246](https://arxiv.org/abs/1706.09246)
+
+**Section/lemma in paper with error:** Theorem 3.10 (and Example 3.11), at $n = 0$
+
+**Lemma statement:** For all $n, b \in \mathbb{N}$ with $b \ge 2$,
+$$F(T_b(n)) = (b^3 + b^2 - b - 1) \cdot b^{2n} - (b+1) \cdot b^n - 2b + 3$$
+
+**Correction:** The formula is valid only for $n \ge 1$. At $n = 0$ the semigroup is $T_b(0) = \langle b,\, b^2+b-1 \rangle$ and Sylvester's two-generator formula gives
+$$F(T_b(0)) = b^3 - 3b + 1$$
+
+**Short explanation:** The formula comes from Corollary 3.9, $\max\mathrm{Ap} = (b-1)s_n + (b-1)s_{n+1}$. At $n=0$ that expression involves $s_0$ itself, but no nonzero multiple of $s_0$ can lie in $\mathrm{Ap}(S, s_0)$, so the corollary does not apply. Theorem 3.10 states no lower bound on $n$, and Example 2.7 treats $T_b(0)$ explicitly, so $n=0$ is claimed. For $b=2$ (generators $\langle 2,5\rangle$) it gives 5 where the true Frobenius number is 3; for $b=3$ ($\langle 3,11\rangle$) it gives 25 versus a true 19. Example 3.11 inherits the same failure at $n=0$.
+
+**Lean:** `song_thabit_n0_TRUE` · **GAP:** Not yet checked
+
+---
+
+## D6
+
+**Paper:** Kyunghwan Song, *The Frobenius problem for four numerical semigroups*, [arXiv:1706.09246](https://arxiv.org/abs/1706.09246)
+
+**Section/lemma in paper with error:** Corollary 4.6(3) — Thabit numerical semigroups of the second kind base $b$, case $n \ge 2$
+
+**Lemma statement:**
+$$F(T_{b'}(n)) = b^{2n+3} + b^{2n+2} - b^{2n+1} - b^{2n} + 2b^{n+2} + 2b^{n+1} + 2b^2$$
+
+**Correction:** The last three terms are wrong; expanding correctly gives
+$$F(T_{b'}(n)) = b^{2n+3} + b^{2n+2} - b^{2n+1} - b^{2n} + 2b^{n+2} + b^{n+1} - b^n + 2b - 1$$
+
+**Short explanation:** Same shape as D2 — only the final simplification is wrong. The corollary's own intermediate expression $2s_1 + (b-1)s_n + (b-1)s_{n+1} - s_0$, with $s_i = (b+1)b^{n+i}+1$, is correct and gives the right answer one line earlier, so the paper contradicts itself. Expanding it term by term yields the corrected polynomial above; the printed version is too large by $b^{n+1} + b^n + 2b^2 - 2b + 1$. For $b=2, n=2$ (generators $\langle 13,25,49,97\rangle$) it gives 200 against a true 183; for $b=3, n=2$ ($\langle 37,109,325,973\rangle$) it gives 2826 against a true 2777.
+
+**Lean:** `song_2nd_b2n2_TRUE` · **GAP:** Not yet checked
