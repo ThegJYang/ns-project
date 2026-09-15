@@ -6,9 +6,9 @@ The Lean 4 / Mathlib library (must build, CI-green) lives in the companion repo:
 
 ## Contents
 
-- `Project-Overview.pdf` — the project guide (goals, division of work, setup checklist, audit-target papers)
 - `results-table.md` — audit results: paper → claim → verdict
-- `TASK.md`, `ARISTOTLE_SUMMARY.md` — spec and summary for the Aristotle-drafted elasticity theorem
+- `discrepancies.md` — confirmed errors in published papers, cross-checked by Lean and GAP
+- `todo.md` — project checklist and known weaknesses
 - `NumSemigroups_MVP.pptx` — MVP status presentation
 
-Still to add: the LaTeX write-up, GAP cross-check scripts, and the annotated candidate-papers document referenced in the guide.
+Still to add: the LaTeX write-up, GAP cross-check scripts, and an annotated candidate-papers document.
